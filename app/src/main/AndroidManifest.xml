@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xzwzz.lady">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="com.xzwzz.lady.AppContext"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.xzwzz.lady.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <meta-data
+            android:name="com.openinstall.APP_KEY"
+            android:value="@string/openinstall_key" />
+
+        <activity
+            android:name="com.xzwzz.lady.ui.MainActivity"
+            android:launchMode="singleTask" />
+        <activity android:name="com.xzwzz.lady.ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.xzwzz.lady.ui.login.LoginActivity"
+            android:launchMode="singleTask" />
+        <activity android:name="com.xzwzz.lady.ui.login.RegisterActivity" />
+        <activity android:name="com.xzwzz.lady.ui.login.FindPassActivity" />
+        <activity android:name="com.xzwzz.lady.ui.SettingActivity" />
+        <activity android:name="com.xzwzz.lady.ui.UserDiamondsActivity" />
+        <activity android:name="com.xzwzz.lady.ui.UserVipActivity" />
+        <activity android:name="com.xzwzz.lady.ui.UserProfitActivity" />
+        <activity android:name="com.xzwzz.lady.ui.login.ModifyPwdActivity" />
+        <activity android:name="com.xzwzz.lady.module.live.LiveModuleActivity" />
+        <activity android:name="com.xzwzz.lady.module.book.BookModuleActivity" />
+        <activity android:name="com.xzwzz.lady.module.video.VideoModuleActivity" />
+        <activity android:name="com.xzwzz.lady.module.live.LiveChannel2Activity" />
+        <activity android:name="com.xzwzz.lady.module.video.VideoListActivity" />
+        <activity android:name="com.xzwzz.lady.module.live.LivePlayActivity" />
+        <activity android:name="com.xzwzz.lady.ui.UserInfoDetailActivity" />
+        <activity
+            android:name="com.xzwzz.lady.module.video.VideoPlayActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="landscape" />
+        <activity android:name="com.xzwzz.lady.module.book.BookDetailActivity" />
+        <activity
+            android:name="com.xzwzz.lady.pay.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.xzwzz.lady.pay.wxapi.WXPayEntryActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="true"
+            android:screenOrientation="behind" />
+
+        <service android:name="com.xzwzz.lady.DownLoadService" />
+
+        <activity android:name="com.xzwzz.lady.ui.VipActivity" />
+        <activity
+            android:name="com.xzwzz.lady.ui.WebViewActivity"
+            android:hardwareAccelerated="true" />
+        <activity android:name="com.xzwzz.lady.ui.LiveModule2Activity" />
+        <activity android:name="com.xzwzz.lady.module.live.LiveChannelActivity" />
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!-- 调用新浪原生SDK，需要注册的回调activity -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- 集成line客户端登录授权，需要添如下格式的过滤器 -->
+            <intent-filter>
+                <data android:scheme="line.1477692153" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- ShareSDK<strong>3.1.0版本之前</strong>才需要在MobUIShell下面注册此意图，3.1.0版本之后（包含3.1.0）不需要注册此intent -->
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="您的AppKey" />
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="您的AppSecret" />
+
+        <activity android:name="com.xzwzz.lady.ui.TelevitionActivity" />
+        <activity
+            android:name="com.xzwzz.lady.ui.BrowserActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.xzwzz.lady.ui.HomeActivity"
+            android:launchMode="singleTask" />
+        <activity android:name="com.xzwzz.lady.ui.VideoActivity" />
+        <activity android:name="com.xzwzz.lady.ui.NovelActivity" />
+        <activity android:name="com.xzwzz.lady.ui.ShareActivity" />
+        <activity android:name="com.xzwzz.lady.ui.TvActivity" />
+        <activity
+            android:name="com.xzwzz.lady.ui.PlayTvActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="com.xzwzz.lady.ui.VideoUrlActivity" />
+        <activity android:name="com.xzwzz.lady.ui.PayActivity" />
+        <activity android:name="com.xzwzz.lady.ui.ReadingActivity" />
+        <activity android:name="com.xzwzz.lady.ui.BuyActivity" />
+        <activity android:name="com.xzwzz.lady.ui.CollectActivity" />
+        <activity android:name="com.xzwzz.lady.ui.VideoDetailActivity"/>
+        <activity
+            android:name="com.xzwzz.lady.ui.AvDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

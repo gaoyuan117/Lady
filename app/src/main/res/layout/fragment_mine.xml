@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9f9f9"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_info_detail_data" />
+
+            <com.xzwzz.lady.widget.LineControlView
+                android:id="@+id/zuanshi"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                android:visibility="visible"
+                app:canNavition="true"
+
+                app:iconRes="@mipmap/chong"
+                app:title="钻石充值" />
+
+            <com.xzwzz.lady.widget.LineControlView
+                android:id="@+id/kaitonghuiyuan"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                app:canNavition="true"
+                app:iconRes="@mipmap/kaitonghuiyuan"
+                app:title="开通直播区会员" />
+
+            <com.xzwzz.lady.widget.LineControlView
+                android:id="@+id/avhuiyuan"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                app:canNavition="true"
+                app:iconRes="@mipmap/avhuiyuan"
+                app:title="开通AV区会员" />
+
+            <com.xzwzz.lady.widget.LineControlView
+                android:id="@+id/xinshou"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                android:visibility="visible"
+                app:canNavition="true"
+                app:iconRes="@mipmap/xinshou"
+                app:title="新手必看" />
+
+            <com.xzwzz.lady.widget.LineControlView
+                android:id="@+id/yigoushipin"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                app:canNavition="true"
+                app:iconRes="@mipmap/yigoushipin"
+                app:title="已购视频" />
+
+            <com.xzwzz.lady.widget.LineControlView
+                android:id="@+id/shoucang"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                app:canNavition="true"
+                app:iconRes="@mipmap/shoucang"
+                app:title="我的收藏" />
+
+            <com.xzwzz.lady.widget.LineControlView
+                android:id="@+id/kefu"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                app:canNavition="true"
+                app:iconRes="@mipmap/kefu"
+                app:title="客服联系方式" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
