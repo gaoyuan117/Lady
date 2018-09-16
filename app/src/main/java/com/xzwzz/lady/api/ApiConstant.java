@@ -12,6 +12,7 @@ import com.xzwzz.lady.bean.BookDetailBean;
 import com.xzwzz.lady.bean.BuyVipBean;
 import com.xzwzz.lady.bean.ChannelDataBean;
 import com.xzwzz.lady.bean.ChannelDataBean1;
+import com.xzwzz.lady.bean.CollectionBean;
 import com.xzwzz.lady.bean.ConfigBean;
 import com.xzwzz.lady.bean.DiamondAdBean;
 import com.xzwzz.lady.bean.HotBean;
@@ -346,11 +347,12 @@ public interface ApiConstant {
     @POST("/api/public/")
     Observable<HttpResult<VideoDetailBean>> videoDetail(@Field("service") String service, @Field("uid") String uid, @Field("id") String id);
 
-
-    //service=Home.avList
     @FormUrlEncoded
     @POST("/api/public/")
     Observable<HttpResult<DiamondAdBean>> diamondAv(@Field("service") String service);
 
+    @FormUrlEncoded
+    @POST("/api/public/")
+    Observable<CollectionBean> collection(@Field("service") String service, @Field("video_id") String video_id, @Field("uid") String uid, @Field("type") String type);
 
 }

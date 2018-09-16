@@ -120,7 +120,7 @@ public class AvItemFragment extends BaseFragment implements BaseQuickAdapter.OnI
         bundle.putString("title", bean.getTitle());
         bundle.putString("url", bean.getVideo_url());
         bundle.putString("id", bean.getId());
-        bundle.putSerializable("type", "av");
+        bundle.putSerializable("type", "1");
         ActivityUtils.startActivity(bundle, AvDetailActivity.class);
     }
 

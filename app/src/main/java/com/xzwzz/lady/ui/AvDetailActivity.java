@@ -14,15 +14,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xzwzz.lady.AppConfig;
 import com.xzwzz.lady.AppContext;
 import com.xzwzz.lady.R;
+import com.xzwzz.lady.api.http.BaseListObserver;
 import com.xzwzz.lady.api.http.BaseObjObserver;
 import com.xzwzz.lady.api.http.RetrofitClient;
 import com.xzwzz.lady.api.http.RxUtils;
 import com.xzwzz.lady.base.BaseActivity;
+import com.xzwzz.lady.bean.CollectionBean;
 import com.xzwzz.lady.bean.DiamondAdBean;
+import com.xzwzz.lady.bean.UserInfoBean;
 import com.xzwzz.lady.bean.VideoDetailBean;
 import com.xzwzz.lady.module.video.VideoPlayActivity;
 import com.xzwzz.lady.ui.adapter.AvDetailAdapter;
@@ -37,6 +41,8 @@ import java.util.concurrent.TimeUnit;
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
@@ -57,8 +63,10 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
 
     private XzwzzPlayer jzVideoPlayerStandard;
     private int a = 0;
-    private String[] s ;
-    private int num = 1;
+    private String[] s;
+    private Disposable disposable;
+    private String type;
+    private ImageView collectImg;
 
 
     @Override
@@ -76,6 +84,7 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
         super.initView();
         String title = getIntent().getStringExtra("title");
         id = getIntent().getStringExtra("id");
+        type = getIntent().getStringExtra("type");
         if (title.length() > 8) {
             title = title.substring(0, 8);
         }
@@ -110,22 +119,49 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
 
         findViewById(R.id.img_jubao).setOnClickListener(v -> toReport());
         findViewById(R.id.img_change).setOnClickListener(v -> change());
+        collectImg = findViewById(R.id.img_collcet);
+        collectImg.setOnClickListener(v -> collection());
 
+        addViewNum();
+    }
 
-
+    private void timer() {
+        if (disposable != null) disposable.dispose();
         Observable.interval(1, TimeUnit.SECONDS)
                 .compose(RxUtils.io_main())
-                .subscribe(new Consumer<Long>() {
+                .subscribe(new Observer<Long>() {
                     @Override
-                    public void accept(Long aLong) throws Exception {
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
                         long currentPositionWhenPlaying = jzVideoPlayerStandard.getCurrentPositionWhenPlaying();
-                        Log.e("gy","当前位置："+currentPositionWhenPlaying);
-                        if (currentPositionWhenPlaying>10000){
-                            toReport();
+                        Log.e("gy", "当前位置：" + currentPositionWhenPlaying);
+                        if (currentPositionWhenPlaying > 10000) {
                             JZVideoPlayer.releaseAllVideos();
+                            PayUtils.payDialog(AvDetailActivity.this, R.mipmap.zb_pay_bg, "直播区", "", 1, AppContext.zbChargeList);
                         }
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        disposable.dispose();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (disposable != null)
+            disposable.dispose();
     }
 
     public void change() {
@@ -143,8 +179,21 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
         dialog.show();
     }
 
-    private void collection(){
-
+    @SuppressLint("CheckResult")
+    private void collection() {
+        RetrofitClient.getInstance().createApi().collection("Home.collect",detailBean.getDetails().getId(),AppContext.getInstance().getLoginUid(),type)
+                .compose(RxUtils.io_main())
+                .subscribe(new Consumer<CollectionBean>() {
+                    @Override
+                    public void accept(CollectionBean collectionBean) throws Exception {
+                        ToastUtils.showShort(collectionBean.getData().getMsg());
+                        if (collectionBean.getData().getMsg().contains("成功")){
+                            collectImg.setImageResource(R.mipmap.collect_true);
+                        }else {
+                            collectImg.setImageResource(R.mipmap.collect_false);
+                        }
+                    }
+                });
     }
 
     private void toReport() {
@@ -164,6 +213,30 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
         super.onResume();
         video();
         ad();
+    }
+
+    //是否为会员
+    private void isMember() {
+        String loginUid = AppContext.getInstance().getLoginUid();
+        if (loginUid.equals("0")) return;
+        RetrofitClient.getInstance().createApi().getBaseUserInfo("User.getBaseInfo", AppContext.getInstance().getToken(), AppContext.getInstance().getLoginUid())
+                .compose(RxUtils.io_main())
+                .subscribe(new BaseListObserver<UserInfoBean>() {
+                    @Override
+                    protected void onHandleSuccess(List<UserInfoBean> list) {
+                        if (list.size() > 0) {
+                            UserInfoBean bean = list.get(0);
+                            AppConfig.IS_MEMBER = (bean.is_member == 1);
+
+                            if (!AppConfig.IS_MEMBER) {
+                                jzVideoPlayerStandard.fullscreenButton.setVisibility(View.INVISIBLE);
+                                timer();
+                            } else {
+                                jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -197,7 +270,12 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                         s = new String[bean.getDetails().getVideo_url().size()];
 
                         for (int i = 0; i < bean.getDetails().getVideo_url().size(); i++) {
-                            s[i] = "线路"+(i+1);
+                            s[i] = "线路" + (i + 1);
+                        }
+                        if (detailBean.getDetails().getIs_free()==1){
+                            jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
+                        }else {
+                            isMember();
                         }
                     }
                 });
@@ -223,18 +301,6 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
         startActivity(intent);
     }
 
-    private void toActivity() {
-        if (vip) {
-            startActivity();
-        } else {
-            if (!AppConfig.AVMEMBER) {
-                PayUtils.payDialog(AvDetailActivity.this, R.mipmap.av_pay_bg, "AV区", "新用户免费观看5部影片", 2, AppContext.avChargeList);
-                return;
-            }
-            startActivity();
-        }
-    }
-
     private void startActivity() {
         Bundle bundle = new Bundle();
         bundle.putSerializable("title", detailBean.getDetails().getTitle());
@@ -246,7 +312,7 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
 
     @SuppressLint("CheckResult")
     private void addViewNum() {
-        RetrofitClient.getInstance().createApi().addViewNum("Home.addvideonum", id,"1")
+        RetrofitClient.getInstance().createApi().addViewNum("Home.addvideonum", id, type)
                 .compose(RxUtils.io_main())
                 .subscribe(httpResult -> {
                 });
