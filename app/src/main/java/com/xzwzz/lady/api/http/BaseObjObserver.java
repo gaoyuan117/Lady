@@ -103,7 +103,7 @@ public abstract class BaseObjObserver<T> implements Observer<HttpResult<T>> {
             mViewStatusManager.setStatus(ViewStatusManager.ViewStatus.error);
         }
         if (refreshLayout != null && refreshLayout.isRefreshing()) {
-            refreshLayout.setEnabled(false);
+            refreshLayout.setRefreshing(false);
         }
 
     }

@@ -181,15 +181,15 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
 
     @SuppressLint("CheckResult")
     private void collection() {
-        RetrofitClient.getInstance().createApi().collection("Home.collect",detailBean.getDetails().getId(),AppContext.getInstance().getLoginUid(),type)
+        RetrofitClient.getInstance().createApi().collection("Home.collect", detailBean.getDetails().getId(), AppContext.getInstance().getLoginUid(), type)
                 .compose(RxUtils.io_main())
                 .subscribe(new Consumer<CollectionBean>() {
                     @Override
                     public void accept(CollectionBean collectionBean) throws Exception {
                         ToastUtils.showShort(collectionBean.getData().getMsg());
-                        if (collectionBean.getData().getMsg().contains("成功")){
+                        if (collectionBean.getData().getMsg().contains("成功")) {
                             collectImg.setImageResource(R.mipmap.collect_true);
-                        }else {
+                        } else {
                             collectImg.setImageResource(R.mipmap.collect_false);
                         }
                     }
@@ -241,6 +241,7 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (detailBean == null || adBean == null) return;
         Intent intent = new Intent(this, AvDetailActivity.class);
         intent.putExtra("title", list.get(position).getTitle());
         intent.putExtra("id", list.get(position).getId());
@@ -272,9 +273,9 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                         for (int i = 0; i < bean.getDetails().getVideo_url().size(); i++) {
                             s[i] = "线路" + (i + 1);
                         }
-                        if (detailBean.getDetails().getIs_free()==1){
+                        if (detailBean.getDetails().getIs_free() == 1) {
                             jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             isMember();
                         }
                     }

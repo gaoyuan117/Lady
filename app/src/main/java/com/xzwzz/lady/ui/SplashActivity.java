@@ -48,6 +48,7 @@ public class SplashActivity extends BaseActivity {
     protected void initData() {
         login();
         getNovelTerm();
+        getVideoTerm();
     }
 
     private void splah() {
@@ -184,7 +185,7 @@ public class SplashActivity extends BaseActivity {
                 });
     }
 
-    //获取小说分类
+    //获取首页分类
     private void getNovelTerm() {
         RetrofitClient.getInstance().createApi().novelTerm("Home.novelTerm").compose(RxUtils.io_main())
                 .subscribe(new BaseListObserver<NovelTermBean>() {
@@ -193,6 +194,19 @@ public class SplashActivity extends BaseActivity {
                         if (list == null || list.size() == 0) return;
                         AppContext.novelTermList.clear();
                         AppContext.novelTermList.addAll(list);
+                    }
+                });
+    }
+
+    //获取视频分类
+    private void getVideoTerm() {
+        RetrofitClient.getInstance().createApi().novelTerm("Home.VideoTerm").compose(RxUtils.io_main())
+                .subscribe(new BaseListObserver<NovelTermBean>() {
+                    @Override
+                    protected void onHandleSuccess(List<NovelTermBean> list) {
+                        if (list == null || list.size() == 0) return;
+                        AppContext.videoTermList.clear();
+                        AppContext.videoTermList.addAll(list);
                     }
                 });
     }

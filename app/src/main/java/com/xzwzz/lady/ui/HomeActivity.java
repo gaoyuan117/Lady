@@ -26,6 +26,7 @@ import com.xzwzz.lady.ui.fragment.AvFragment;
 import com.xzwzz.lady.ui.fragment.DiamondFragment;
 import com.xzwzz.lady.ui.fragment.HomeFragment;
 import com.xzwzz.lady.ui.fragment.MineFragment;
+import com.xzwzz.lady.ui.fragment.VideoFragment;
 import com.xzwzz.lady.utils.DialogHelp;
 import com.xzwzz.lady.utils.UpdateManager;
 import com.xzwzz.lady.view.AlphaTabView;
@@ -82,7 +83,7 @@ public class HomeActivity extends BaseActivity implements OnTabChangedListner {
         viewPager.setOffscreenPageLimit(4);
         mList = new ArrayList<>();
         mList.add(new AVHomeFragment());
-        mList.add(new DiamondFragment());
+        mList.add(new VideoFragment());
         mList.add(new AvFragment());
         mList.add(new MineFragment());
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this, mList);

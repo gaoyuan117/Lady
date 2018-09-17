@@ -22,6 +22,7 @@ import com.xzwzz.lady.base.BaseFragment;
 import com.xzwzz.lady.bean.AdListBean;
 import com.xzwzz.lady.bean.AvVideoListBean;
 import com.xzwzz.lady.ui.AvDetailActivity;
+import com.xzwzz.lady.ui.VideoDetailActivity;
 import com.xzwzz.lady.ui.adapter.AvAdapter;
 import com.xzwzz.lady.utils.MyImageLoader;
 import com.youth.banner.Banner;
@@ -33,10 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by a on 2018/8/5.
+ * Created by gaoyuan on 2018/9/17.
  */
 
-public class AvItemFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, OnBannerClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class VideoItemFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, OnBannerClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recycler;
     private SwipeRefreshLayout refresh;
@@ -97,7 +98,7 @@ public class AvItemFragment extends BaseFragment implements BaseQuickAdapter.OnI
     }
 
     public void getVideoList() {
-        RetrofitClient.getInstance().createApi().videoList("Home.VideoList", id).compose(RxUtils.io_main())
+        RetrofitClient.getInstance().createApi().videoList("Home.MoviesLinkList", id).compose(RxUtils.io_main())
                 .subscribe(new BaseListObserver<AvVideoListBean>(refresh) {
                     @Override
                     protected void onHandleSuccess(List<AvVideoListBean> avList) {
@@ -120,13 +121,13 @@ public class AvItemFragment extends BaseFragment implements BaseQuickAdapter.OnI
         bundle.putString("title", bean.getTitle());
         bundle.putString("url", bean.getVideo_url());
         bundle.putString("id", bean.getId());
-        bundle.putSerializable("type", "2");
-        ActivityUtils.startActivity(bundle, AvDetailActivity.class);
+        bundle.putSerializable("type", "1");
+        ActivityUtils.startActivity(bundle, VideoDetailActivity.class);
     }
 
 
     private void getBanner() {
-        RetrofitClient.getInstance().createApi().adsList("Home.av_adsList")
+        RetrofitClient.getInstance().createApi().adsList("Home.coin_adsList")
                 .compose(RxUtils.io_main())
                 .subscribe(new BaseListObserver<AdListBean>() {
 
