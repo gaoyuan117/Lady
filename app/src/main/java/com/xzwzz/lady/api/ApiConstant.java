@@ -7,6 +7,7 @@ import com.xzwzz.lady.bean.AdListBean;
 import com.xzwzz.lady.bean.AvVideoListBean;
 import com.xzwzz.lady.bean.BalanceBean;
 import com.xzwzz.lady.bean.BaseBean;
+import com.xzwzz.lady.bean.BindBean;
 import com.xzwzz.lady.bean.BookBean;
 import com.xzwzz.lady.bean.BookDetailBean;
 import com.xzwzz.lady.bean.BuyVipBean;
@@ -368,6 +369,10 @@ public interface ApiConstant {
     @POST("/api/public/")
     Observable<HttpArray<CollectBean>> collcet(@Field("service") String service, @Field("uid") String id);
 
+
+    @FormUrlEncoded
+    @POST("/api/public/")
+    Observable<BindBean> bind(@Field("service") String service, @Field("mobile") String mobile, @Field("code") String code, @Field("pass") String pass);
 
 
 }

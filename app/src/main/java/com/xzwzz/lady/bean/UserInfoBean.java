@@ -43,6 +43,7 @@ public class UserInfoBean {
     public String level;
     public String lives;
     public String follows;
+    public String mobile;
     public String fans;
     public String avmember_validity;
     public int is_member;

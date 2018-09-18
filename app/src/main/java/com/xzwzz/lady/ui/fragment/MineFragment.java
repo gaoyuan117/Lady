@@ -21,6 +21,7 @@ import com.xzwzz.lady.api.http.RxUtils;
 import com.xzwzz.lady.base.BaseFragment;
 import com.xzwzz.lady.bean.UserBean;
 import com.xzwzz.lady.bean.UserInfoBean;
+import com.xzwzz.lady.ui.BindPhoneActivity;
 import com.xzwzz.lady.ui.BuyActivity;
 import com.xzwzz.lady.ui.CollectActivity;
 import com.xzwzz.lady.ui.ReadingActivity;
@@ -88,7 +89,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.zuanshi://绑定账号
-                PayUtils.payDialog(getActivity(), R.mipmap.zb_pay_bg, "钻石区", "新用户免费观看5部影片", 3, AppContext.zsChargeList);
+                startActivity(new Intent(getActivity(), BindPhoneActivity.class));
                 break;
             case R.id.kaitonghuiyuan://开通会员
                 PayUtils.payDialog(getActivity(), R.mipmap.zb_pay_bg, "直播区", "", 1, AppContext.zbChargeList);
@@ -162,7 +163,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                             ForegroundColorSpan span = new ForegroundColorSpan(Color.RED);
                             SpannableString spannableString = new SpannableString(coin);
                             spannableString.setSpan(span, 7, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                            tvDiamond.setContent(spannableString);
+                            if (!TextUtils.isEmpty(bean.mobile)){
+                                tvDiamond.setContent(bean.mobile);
+                            }
+
                         }
                     }
                 });
