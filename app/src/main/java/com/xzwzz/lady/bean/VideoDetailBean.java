@@ -61,8 +61,26 @@ public class VideoDetailBean {
         private String video_url2;
         private String video_url3;
         private String uptime;
+        private String img_url;
         private int is_free;
+        private int is_collect;
         private List<String> video_url;
+
+        public int getIs_collect() {
+            return is_collect;
+        }
+
+        public void setIs_collect(int is_collect) {
+            this.is_collect = is_collect;
+        }
+
+        public String getImg_url() {
+            return img_url;
+        }
+
+        public void setImg_url(String img_url) {
+            this.img_url = img_url;
+        }
 
         public String getId() {
             return id;
@@ -197,6 +215,15 @@ public class VideoDetailBean {
         private String video_url2;
         private String video_url3;
         private String uptime;
+        private String img_url;
+
+        public String getImg_url() {
+            return img_url;
+        }
+
+        public void setImg_url(String img_url) {
+            this.img_url = img_url;
+        }
 
         public String getId() {
             return id;

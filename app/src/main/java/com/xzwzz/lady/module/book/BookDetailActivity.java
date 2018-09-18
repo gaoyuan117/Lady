@@ -10,43 +10,40 @@ import com.xzwzz.lady.R;
 import com.xzwzz.lady.api.http.BaseObjObserver;
 import com.xzwzz.lady.api.http.RetrofitClient;
 import com.xzwzz.lady.api.http.RxUtils;
+import com.xzwzz.lady.base.BaseActivity;
 import com.xzwzz.lady.bean.BookBean;
 import com.xzwzz.lady.utils.StatusBarUtil;
 
-public class BookDetailActivity extends AppCompatActivity {
+public class BookDetailActivity extends BaseActivity {
 
     private android.webkit.WebView mWebview;
     private String id;
-    private TextView tvTitle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_detail);
-        initView();
-        initData();
-        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+    protected boolean hasActionBar() {
+        return true;
     }
 
+    @Override
+    protected Object getIdOrView() {
+        return R.layout.activity_book_detail;
+    }
 
+    @Override
     protected void initView() {
+        Bundle extras = getIntent().getExtras();
+        String name = extras.getString("name");
+        id = extras.getString("id");
+
+        setToolbar(name, true);
         mWebview = findViewById(R.id.webview);
-        tvTitle = findViewById(R.id.tv_title);
         StatusBarUtil.getInstance().setPaddingSmart(this, mWebview);
+        initData();
+
     }
 
     protected void initData() {
-        Bundle extras = getIntent().getExtras();
-        String name = extras.getString("name");
-        tvTitle.setText(name);
-
-        id = extras.getString("id");
-        RetrofitClient.getInstance().createApi().getNoveldetails("Home.Noveldetails", id)
+        RetrofitClient.getInstance().createApi().getNoveldetails("Home.Noveldetail", id)
                 .compose(RxUtils.io_main())
                 .subscribe(new BaseObjObserver<BookBean>(ProgressDialog.show(this, "", "加载中")) {
                     @Override

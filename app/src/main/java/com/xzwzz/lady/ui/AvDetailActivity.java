@@ -141,7 +141,7 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                         Log.e("gy", "当前位置：" + currentPositionWhenPlaying);
                         if (currentPositionWhenPlaying > 10000) {
                             JZVideoPlayer.releaseAllVideos();
-                            PayUtils.payDialog(AvDetailActivity.this, R.mipmap.zb_pay_bg, "直播区", "", 1, AppContext.zbChargeList);
+                            PayUtils.payDialog(AvDetailActivity.this, R.mipmap.zb_pay_bg, "AV区", "", 1, AppContext.zbChargeList);
                         }
                     }
 
@@ -256,27 +256,38 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                     @Override
                     protected void onHandleSuccess(VideoDetailBean bean) {
                         detailBean = bean;
-                        GlideUtils.glide(mContext, bean.getDetails().getVideo_img(), jzVideoPlayerStandard.thumbImageView);
-                        tvTitle.setText(bean.getDetails().getTitle());
-                        tvTime.setText(bean.getDetails().getUptime());
-                        tvWatch.setText(bean.getDetails().getWatch_num() + "");
-                        list.clear();
-                        if (bean.getList() == null || bean.getList().size() == 0) return;
-                        list.addAll(bean.getList());
-                        adapter.notifyDataSetChanged();
+                        try {
+                            GlideUtils.glide(mContext, bean.getDetails().getVideo_img(), jzVideoPlayerStandard.thumbImageView);
+                            tvTitle.setText(bean.getDetails().getTitle());
+                            tvTime.setText(bean.getDetails().getUptime());
+                            tvWatch.setText(bean.getDetails().getWatch_num() + "");
+                            list.clear();
+                            if (bean.getList() == null || bean.getList().size() == 0) return;
+                            list.addAll(bean.getList());
+                            adapter.notifyDataSetChanged();
 
-                        jzVideoPlayerStandard.setUp(detailBean.getDetails().getVideo_url().get(0), JZVideoPlayerStandard.SCREEN_WINDOW_LIST);
-                        jzVideoPlayerStandard.backButton.setVisibility(View.GONE);
+                            jzVideoPlayerStandard.setUp(detailBean.getDetails().getVideo_url().get(0), JZVideoPlayerStandard.SCREEN_WINDOW_LIST);
+                            jzVideoPlayerStandard.backButton.setVisibility(View.GONE);
 
-                        s = new String[bean.getDetails().getVideo_url().size()];
+                            s = new String[bean.getDetails().getVideo_url().size()];
 
-                        for (int i = 0; i < bean.getDetails().getVideo_url().size(); i++) {
-                            s[i] = "线路" + (i + 1);
-                        }
-                        if (detailBean.getDetails().getIs_free() == 1) {
-                            jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
-                        } else {
-                            isMember();
+                            for (int i = 0; i < bean.getDetails().getVideo_url().size(); i++) {
+                                s[i] = "线路" + (i + 1);
+                            }
+                            if (detailBean.getDetails().getIs_free() == 1) {
+                                jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
+                            } else {
+                                isMember();
+                            }
+
+                            if (detailBean.getDetails().getIs_collect() == 1) {
+                                collectImg.setImageResource(R.mipmap.collect_true);
+                            } else {
+                                collectImg.setImageResource(R.mipmap.collect_false);
+                            }
+
+                        } catch (Exception e) {
+
                         }
                     }
                 });

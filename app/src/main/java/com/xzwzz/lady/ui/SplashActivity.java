@@ -49,6 +49,7 @@ public class SplashActivity extends BaseActivity {
         login();
         getNovelTerm();
         getVideoTerm();
+        getNovelCate();
     }
 
     private void splah() {
@@ -207,6 +208,19 @@ public class SplashActivity extends BaseActivity {
                         if (list == null || list.size() == 0) return;
                         AppContext.videoTermList.clear();
                         AppContext.videoTermList.addAll(list);
+                    }
+                });
+    }
+
+    //获取小说分类
+    private void getNovelCate() {
+        RetrofitClient.getInstance().createApi().novelTerm("Home.NovelCate").compose(RxUtils.io_main())
+                .subscribe(new BaseListObserver<NovelTermBean>() {
+                    @Override
+                    protected void onHandleSuccess(List<NovelTermBean> list) {
+                        if (list == null || list.size() == 0) return;
+                        AppContext.novelList.clear();
+                        AppContext.novelList.addAll(list);
                     }
                 });
     }

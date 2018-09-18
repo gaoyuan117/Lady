@@ -12,6 +12,7 @@ import com.xzwzz.lady.bean.BookDetailBean;
 import com.xzwzz.lady.bean.BuyVipBean;
 import com.xzwzz.lady.bean.ChannelDataBean;
 import com.xzwzz.lady.bean.ChannelDataBean1;
+import com.xzwzz.lady.bean.CollectBean;
 import com.xzwzz.lady.bean.CollectionBean;
 import com.xzwzz.lady.bean.ConfigBean;
 import com.xzwzz.lady.bean.DiamondAdBean;
@@ -279,6 +280,10 @@ public interface ApiConstant {
     @POST("/api/public/")
     Observable<HttpArray<AvVideoListBean>> videoList(@Field("service") String service, @Field("id") String id);
 
+    @FormUrlEncoded
+    @POST("/api/public/")
+    Observable<HttpArray<AvVideoListBean>> videoList2(@Field("service") String service, @Field("term_id") String id);
+
     //service=home.TvTerm
     @FormUrlEncoded
     @POST("/api/public/")
@@ -354,5 +359,15 @@ public interface ApiConstant {
     @FormUrlEncoded
     @POST("/api/public/")
     Observable<CollectionBean> collection(@Field("service") String service, @Field("video_id") String video_id, @Field("uid") String uid, @Field("type") String type);
+
+    @FormUrlEncoded
+    @POST("/api/public/")
+    Observable<HttpResult> share(@Field("service") String service, @Field("uid") String id);
+
+    @FormUrlEncoded
+    @POST("/api/public/")
+    Observable<HttpArray<CollectBean>> collcet(@Field("service") String service, @Field("uid") String id);
+
+
 
 }

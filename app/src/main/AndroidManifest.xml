@@ -110,15 +110,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <!-- ShareSDK<strong>3.1.0版本之前</strong>才需要在MobUIShell下面注册此意图，3.1.0版本之后（包含3.1.0）不需要注册此intent -->
-            <intent-filter>
-                <data android:scheme="tencent100371282" />
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
         <meta-data

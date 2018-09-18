@@ -26,7 +26,7 @@ public class ReadingActivity extends BaseActivity {
     @Override
     protected void initView() {
         webView = findViewById(R.id.webview);
-        setToolbar("新手必看",true);
+        setToolbar("政策条款",true);
         noviece();
     }
 
@@ -41,12 +41,12 @@ public class ReadingActivity extends BaseActivity {
 
 
     private void noviece(){
-        RetrofitClient.getInstance().createApi().noviece("Home.noviece")
+        RetrofitClient.getInstance().createApi().noviece("Home.clause")
                 .compose(RxUtils.io_main())
                 .subscribe(new BaseObjObserver<NovieceBean>() {
                     @Override
                     protected void onHandleSuccess(NovieceBean bean) {
-                        webView.loadData(getHtmlData(bean.getContent()), "text/html; charset=utf-8", "utf-8");
+                        webView.loadData(getHtmlData(bean.getPost_content()), "text/html; charset=utf-8", "utf-8");
                     }
                 });
     }

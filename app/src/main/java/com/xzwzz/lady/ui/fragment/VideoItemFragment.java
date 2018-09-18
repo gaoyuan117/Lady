@@ -98,7 +98,7 @@ public class VideoItemFragment extends BaseFragment implements BaseQuickAdapter.
     }
 
     public void getVideoList() {
-        RetrofitClient.getInstance().createApi().videoList("Home.MoviesLinkList", id).compose(RxUtils.io_main())
+        RetrofitClient.getInstance().createApi().videoList2("Home.MoviesLinkList", id).compose(RxUtils.io_main())
                 .subscribe(new BaseListObserver<AvVideoListBean>(refresh) {
                     @Override
                     protected void onHandleSuccess(List<AvVideoListBean> avList) {

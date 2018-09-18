@@ -235,6 +235,12 @@ public class VideoDetailActivity extends BaseActivity implements BaseQuickAdapte
                             } else {
                                 jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
                             }
+
+                            if (detailBean.getDetails().getIs_collect()==1) {
+                                collectImg.setImageResource(R.mipmap.collect_true);
+                            } else {
+                                collectImg.setImageResource(R.mipmap.collect_false);
+                            }
                         }
                     }
                 });
@@ -256,28 +262,32 @@ public class VideoDetailActivity extends BaseActivity implements BaseQuickAdapte
                 .subscribe(new BaseObjObserver<VideoDetailBean>() {
                     @Override
                     protected void onHandleSuccess(VideoDetailBean bean) {
-                        detailBean = bean;
-                        GlideUtils.glide(mContext, bean.getDetails().getVideo_img(), jzVideoPlayerStandard.thumbImageView);
-                        tvTitle.setText(bean.getDetails().getTitle());
-                        tvTime.setText(bean.getDetails().getUptime());
-                        tvWatch.setText(bean.getDetails().getWatch_num() + "");
-                        list.clear();
-                        if (bean.getList() == null || bean.getList().size() == 0) return;
-                        list.addAll(bean.getList());
-                        adapter.notifyDataSetChanged();
+                        try {
+                            detailBean = bean;
+                            GlideUtils.glide(mContext, bean.getDetails().getImg_url(), jzVideoPlayerStandard.thumbImageView);
+                            tvTitle.setText(bean.getDetails().getTitle());
+                            tvTime.setText(bean.getDetails().getUptime());
+                            tvWatch.setText(bean.getDetails().getWatch_num() + "");
+                            list.clear();
+                            if (bean.getList() == null || bean.getList().size() == 0) return;
+                            list.addAll(bean.getList());
+                            adapter.notifyDataSetChanged();
 
-                        jzVideoPlayerStandard.setUp(detailBean.getDetails().getVideo_url().get(0), JZVideoPlayerStandard.SCREEN_WINDOW_LIST);
-                        jzVideoPlayerStandard.backButton.setVisibility(View.GONE);
+                            jzVideoPlayerStandard.setUp(detailBean.getDetails().getVideo_url().get(0), JZVideoPlayerStandard.SCREEN_WINDOW_LIST);
+                            jzVideoPlayerStandard.backButton.setVisibility(View.GONE);
 
-                        s = new String[bean.getDetails().getVideo_url().size()];
+                            s = new String[bean.getDetails().getVideo_url().size()];
 
-                        for (int i = 0; i < bean.getDetails().getVideo_url().size(); i++) {
-                            s[i] = "线路" + (i + 1);
-                        }
-                        if (detailBean.getDetails().getIs_free() == 1) {
-                            jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
-                        } else {
-                            isMember();
+                            for (int i = 0; i < bean.getDetails().getVideo_url().size(); i++) {
+                                s[i] = "线路" + (i + 1);
+                            }
+                            if (detailBean.getDetails().getIs_free() == 1) {
+                                jzVideoPlayerStandard.fullscreenButton.setVisibility(View.VISIBLE);
+                            } else {
+                                isMember();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 });

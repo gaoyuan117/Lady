@@ -63,13 +63,13 @@ public class AvFragment extends BaseFragment implements OnBannerClickListener {
         fragments = new ArrayList<>();
         titles = new ArrayList<>();
 
-        for (int i = 0; i < AppContext.novelTermList.size(); i++) {
-            AvItemFragment f = new AvItemFragment();
+        for (int i = 0; i < AppContext.novelList.size(); i++) {
+            NovelFragment f = new NovelFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("id", AppContext.novelTermList.get(i).getTerm_id());
+            bundle.putString("id", AppContext.novelList.get(i).getTerm_id());
             f.setArguments(bundle);
             fragments.add(f);
-            titles.add(AppContext.novelTermList.get(i).getName());
+            titles.add(AppContext.novelList.get(i).getName());
         }
 
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), getActivity(), fragments, titles);
@@ -86,7 +86,7 @@ public class AvFragment extends BaseFragment implements OnBannerClickListener {
     }
 
     private void getBanner() {
-        RetrofitClient.getInstance().createApi().adsList("Home.av_adsList")
+        RetrofitClient.getInstance().createApi().adsList("Home.novel_adsList")
                 .compose(RxUtils.io_main())
                 .subscribe(new BaseListObserver<AdListBean>() {
 

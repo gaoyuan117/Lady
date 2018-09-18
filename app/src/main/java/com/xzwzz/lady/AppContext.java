@@ -34,6 +34,7 @@ public class AppContext extends Application {
     public static TextAdBean textAdBean;
     public static List<NovelTermBean> novelTermList = new ArrayList<>();
     public static List<NovelTermBean> videoTermList = new ArrayList<>();
+    public static List<NovelTermBean> novelList = new ArrayList<>();
     public static List<PayDialogBean> zbChargeList = new ArrayList<>();//直播区充值规则
     public static List<PayDialogBean> zsChargeList = new ArrayList<>();//钻石区充值规则
     public static List<PayDialogBean> avChargeList = new ArrayList<>();//AV区充值规则

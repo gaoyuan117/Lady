@@ -2,25 +2,23 @@ package com.xzwzz.lady.bean;
 
 public class AvVideoListBean {
 
-    /**
-     * id : 389
-     * video_url : https://vid1-l3.xvideos-cdn.com/videos/3gp/d/8/a/xvideos.com_d8a346ee586482ed558755793b663c39.mp4?e=1528996104&ri=1024&rs=85&h=8300e7f54fc4fd14c80174410c266933
-     * uid : null
-     * uptime : 2018-08-05 15:59:04
-     * term_id : 19
-     * title : 【杏吧论坛.COM】终于上了性欲旺盛的女房东?/【杏吧论坛.COM】终于上了性欲旺盛的女房东
-     * video_img : https://img-l3.xvideos-cdn.com/videos/thumbs169/d8/a3/46/d8a346ee586482ed558755793b663c39/d8a346ee586482ed558755793b663c39.3.jpg
-     * listorder : 0
-     */
-
     private String id;
     private String video_url;
     private Object uid;
     private String uptime;
     private String term_id;
     private String title;
+    private String img_url;
     private String video_img;
     private String listorder;
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
+    }
 
     public String getId() {
         return id;
