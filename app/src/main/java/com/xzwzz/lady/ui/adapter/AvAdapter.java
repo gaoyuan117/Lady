@@ -2,6 +2,7 @@ package com.xzwzz.lady.ui.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -32,5 +33,12 @@ public class AvAdapter extends BaseQuickAdapter<AvVideoListBean,BaseViewHolder>{
         }
         helper.setText(R.id.tv_title,item.getTitle());
         helper.setText(R.id.tv_time,item.getUptime());
+
+        ImageView freeImg = helper.getView(R.id.img_free);
+        if (item.getIs_free()==0){
+            freeImg.setVisibility(View.GONE);
+        }else {
+            freeImg.setVisibility(View.VISIBLE);
+        }
     }
 }

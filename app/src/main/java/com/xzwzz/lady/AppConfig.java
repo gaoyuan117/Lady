@@ -17,10 +17,10 @@ import java.util.Properties;
  */
 public class AppConfig {
 
-    public static  String INVITE_CODE = "";//内置邀请码
+    public static String INVITE_CODE = "";//内置邀请码
 
     public static final String MAIN_URL = "http://tubo.8eym3.cn/";
-//        public static final String MAIN_URL = "http://yybs88.com/";
+    //        public static final String MAIN_URL = "http://yybs88.com/";
     //api地址
     public static final String MAIN_URL_API = MAIN_URL + "/api/public/";
     //支付宝回调地址
@@ -62,7 +62,8 @@ public class AppConfig {
     public static String jika;
     public static String nianka;
     public static String zhongshenka;
-    public static String free_time;
+    public static long free_time;
+    public static String qq;
 
     public static String GLOBAL_WX_KEY = "";//微信KEY
     public static String TICK_NAME = ""; //魅力值昵称

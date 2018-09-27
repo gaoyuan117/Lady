@@ -91,37 +91,37 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
         imgCollect.setOnClickListener(this);
 
         Log.e("gy", "免费时间：" + AppConfig.free_time);
-        if (!TextUtils.isEmpty(AppConfig.free_time) && !AppConfig.IS_MEMBER) {
-            mTvLiveTime.setVisibility(View.VISIBLE);
-            CountDownUtils count = new CountDownUtils(mTvLiveTime, "剩余观看时间：%s", Integer.valueOf(AppConfig.free_time));
-            count.start();
-            count.setCountdownListener(new CountDownUtils.CountdownListener() {
-                @Override
-                public void onStartCount() {
-
-                }
-
-                @Override
-                public void onFinishCount() {
-                    mTvLiveTime.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onUpdateCount(int currentRemainingSeconds) {
-                    mTvLiveTime.setText("剩余观看时间：" + currentRemainingSeconds + "s");
-                }
-            });
-            startDownTime();
-        }
+//        if (!TextUtils.isEmpty(AppConfig.free_time) && !AppConfig.IS_MEMBER) {
+//            mTvLiveTime.setVisibility(View.VISIBLE);
+//            CountDownUtils count = new CountDownUtils(mTvLiveTime, "剩余观看时间：%s", Integer.valueOf(AppConfig.free_time));
+//            count.start();
+//            count.setCountdownListener(new CountDownUtils.CountdownListener() {
+//                @Override
+//                public void onStartCount() {
+//
+//                }
+//
+//                @Override
+//                public void onFinishCount() {
+//                    mTvLiveTime.setVisibility(View.GONE);
+//                }
+//
+//                @Override
+//                public void onUpdateCount(int currentRemainingSeconds) {
+//                    mTvLiveTime.setText("剩余观看时间：" + currentRemainingSeconds + "s");
+//                }
+//            });
+//            startDownTime();
+//        }
 
 
     }
 
     @SuppressLint("CheckResult")
     private void startDownTime() {
-        Observable.timer(Integer.valueOf(AppConfig.free_time), TimeUnit.SECONDS)
-                .compose(RxUtils.io_main())
-                .subscribe(aLong -> isMember());
+//        Observable.timer(Integer.valueOf(AppConfig.free_time), TimeUnit.SECONDS)
+//                .compose(RxUtils.io_main())
+//                .subscribe(aLong -> isMember());
     }
 
     private void isMember() {

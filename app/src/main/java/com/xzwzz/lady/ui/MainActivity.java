@@ -126,6 +126,7 @@ public class MainActivity extends BaseActivity {
                         if (list.size() > 0) {
                             UserInfoBean bean = list.get(0);
                             AppConfig.IS_MEMBER = (bean.is_member == 1);
+                            AppConfig.AVMEMBER = (bean.is_av_member == 1);
                         }
                     }
                 });

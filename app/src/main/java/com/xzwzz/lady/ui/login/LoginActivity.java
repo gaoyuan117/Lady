@@ -18,6 +18,7 @@ import com.xzwzz.lady.base.BaseActivity;
 import com.xzwzz.lady.bean.UserBean;
 import com.xzwzz.lady.ui.HomeActivity;
 import com.xzwzz.lady.ui.MainActivity;
+import com.xzwzz.lady.utils.LoginUtils;
 import com.xzwzz.lady.utils.StatusBarUtil;
 import com.xzwzz.lady.view.RoundImageView;
 
@@ -194,34 +195,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 @Override
                 protected void onHandleSuccess(List<UserBean> list) {
                     if (list != null & list.size() > 0){
-                        AppContext.getInstance().saveUserInfo(list.get(0));
-                        getQq();
+//                        AppContext.getInstance().saveUserInfo(list.get(0));
+//                        getQq();
+
+                        UserBean bean = new UserBean();
+                        bean.token = LoginUtils.getDeviceId(LoginActivity.this);
+                        bean.id = list.get(0).id;
+                        AppContext.getInstance().saveUserInfo(bean);
+
+                        startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                        finish();
                     }
                 }
             };
         }
     }
-
-
-    private void getQq() {
-        RetrofitClient.getInstance().createApi().getQq("User.getqq", AppContext.getInstance().getLoginUid())
-                .compose(RxUtils.io_main())
-                .subscribe(qqBean -> {
-                    if (qqBean.getData().getCode() == 0) {
-                        AppConfig.QQ = qqBean.getData().getInfo().get(0).getQq();
-                        AppConfig.YUE = qqBean.getData().getInfo().get(0).getYueka_url();
-                        AppConfig.JI = qqBean.getData().getInfo().get(0).getJika_url();
-                        AppConfig.YEAR = qqBean.getData().getInfo().get(0).getNianka_url();
-                        AppConfig.FOREVER = qqBean.getData().getInfo().get(0).getZhongshenka_url();
-                        AppConfig.CODE = qqBean.getData().getInfo().get(0).getInvitation_code();
-
-//                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-    }
-
 
 }

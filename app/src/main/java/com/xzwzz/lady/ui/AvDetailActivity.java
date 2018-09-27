@@ -96,7 +96,6 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
         tvWatch = findViewById(R.id.tv_watch);
         tvTime = findViewById(R.id.tv_time);
         recyclerView = findViewById(R.id.recycler);
-        layoutTips.setVisibility(View.GONE);
         imgAd.setVisibility(View.GONE);
         tvWatch.setVisibility(View.VISIBLE);
 
@@ -139,7 +138,7 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                     public void onNext(Long aLong) {
                         long currentPositionWhenPlaying = jzVideoPlayerStandard.getCurrentPositionWhenPlaying();
                         Log.e("gy", "当前位置：" + currentPositionWhenPlaying);
-                        if (currentPositionWhenPlaying > 10000) {
+                        if (currentPositionWhenPlaying > AppConfig.free_time*1000) {
                             JZVideoPlayer.releaseAllVideos();
                             PayUtils.payDialog(AvDetailActivity.this, R.mipmap.zb_pay_bg, "AV区", "", 1, AppContext.zbChargeList);
                         }
@@ -226,9 +225,9 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                     protected void onHandleSuccess(List<UserInfoBean> list) {
                         if (list.size() > 0) {
                             UserInfoBean bean = list.get(0);
-                            AppConfig.IS_MEMBER = (bean.is_member == 1);
+                            AppConfig.AVMEMBER = (bean.is_av_member == 1);
 
-                            if (!AppConfig.IS_MEMBER) {
+                            if (!AppConfig.AVMEMBER) {
                                 jzVideoPlayerStandard.fullscreenButton.setVisibility(View.INVISIBLE);
                                 timer();
                             } else {
@@ -257,14 +256,20 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                     protected void onHandleSuccess(VideoDetailBean bean) {
                         detailBean = bean;
                         try {
+                            if (bean.getDetails().getIs_free() == 0) {
+                                layoutTips.setVisibility(View.GONE);
+                            } else {
+                                layoutTips.setVisibility(View.VISIBLE);
+                            }
                             GlideUtils.glide(mContext, bean.getDetails().getVideo_img(), jzVideoPlayerStandard.thumbImageView);
                             tvTitle.setText(bean.getDetails().getTitle());
                             tvTime.setText(bean.getDetails().getUptime());
                             tvWatch.setText(bean.getDetails().getWatch_num() + "");
                             list.clear();
-                            if (bean.getList() == null || bean.getList().size() == 0) return;
-                            list.addAll(bean.getList());
-                            adapter.notifyDataSetChanged();
+                            if (bean.getList() != null || bean.getList().size() > 0) {
+                                list.addAll(bean.getList());
+                                adapter.notifyDataSetChanged();
+                            }
 
                             jzVideoPlayerStandard.setUp(detailBean.getDetails().getVideo_url().get(0), JZVideoPlayerStandard.SCREEN_WINDOW_LIST);
                             jzVideoPlayerStandard.backButton.setVisibility(View.GONE);
@@ -287,7 +292,7 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                             }
 
                         } catch (Exception e) {
-
+                            ToastUtils.showShort("加载错误");
                         }
                     }
                 });
@@ -328,5 +333,11 @@ public class AvDetailActivity extends BaseActivity implements BaseQuickAdapter.O
                 .compose(RxUtils.io_main())
                 .subscribe(httpResult -> {
                 });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        jzVideoPlayerStandard.releaseAllVideos();
     }
 }

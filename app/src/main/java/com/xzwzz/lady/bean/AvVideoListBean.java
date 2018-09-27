@@ -11,6 +11,15 @@ public class AvVideoListBean {
     private String img_url;
     private String video_img;
     private String listorder;
+    private int is_free;
+
+    public int getIs_free() {
+        return is_free;
+    }
+
+    public void setIs_free(int is_free) {
+        this.is_free = is_free;
+    }
 
     public String getImg_url() {
         return img_url;

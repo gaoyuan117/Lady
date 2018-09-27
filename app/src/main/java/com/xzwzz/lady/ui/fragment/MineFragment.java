@@ -10,6 +10,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.xzwzz.lady.AppConfig;
@@ -25,6 +26,7 @@ import com.xzwzz.lady.ui.BindPhoneActivity;
 import com.xzwzz.lady.ui.BuyActivity;
 import com.xzwzz.lady.ui.CollectActivity;
 import com.xzwzz.lady.ui.ReadingActivity;
+import com.xzwzz.lady.ui.login.LoginActivity;
 import com.xzwzz.lady.utils.PayUtils;
 import com.xzwzz.lady.utils.ShareUtil;
 import com.xzwzz.lady.utils.StatusBarUtil;
@@ -68,8 +70,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         view.findViewById(R.id.xinshou).setOnClickListener(this);
         view.findViewById(R.id.yigoushipin).setOnClickListener(this);
         view.findViewById(R.id.shoucang).setOnClickListener(this);
-        view.findViewById(R.id.kefu).setOnClickListener(this);
+        LineControlView kefy = view.findViewById(R.id.kefu);
+        kefy.setOnClickListener(this);
+        kefy.setContent(AppConfig.QQ);
         view.findViewById(R.id.share).setOnClickListener(this);
+        view.findViewById(R.id.change).setOnClickListener(this);
     }
 
     @Override
@@ -92,7 +97,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 startActivity(new Intent(getActivity(), BindPhoneActivity.class));
                 break;
             case R.id.kaitonghuiyuan://开通会员
-                PayUtils.payDialog(getActivity(), R.mipmap.zb_pay_bg, "直播区", "", 1, AppContext.zbChargeList);
+                PayUtils.payDialog(getActivity(), R.mipmap.av_pay_bg, "开通会员", "", 2, AppContext.avChargeList);
                 break;
             case R.id.avhuiyuan://AV会员
                 PayUtils.payDialog(getActivity(), R.mipmap.av_pay_bg, "AV区", "新用户免费观看5部影片", 2, AppContext.avChargeList);
@@ -111,6 +116,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.share://分享
                 ShareUtil.share(getActivity(), this);
+                break;
+            case R.id.change://切换账号
+                startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
         }
     }
@@ -147,13 +155,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                     protected void onHandleSuccess(List<UserInfoBean> list) {
                         if (list.size() > 0) {
                             UserInfoBean bean = list.get(0);
-                            AppConfig.IS_MEMBER = (bean.is_member == 1);
+//                            AppConfig.IS_MEMBER = (bean.is_member == 1);
                             AppConfig.AVMEMBER = (bean.is_av_member == 1);
 
                             tvVipTime.setText(bean.member_validity);
                             tvAvVipTime.setText(bean.avmember_validity);
 
-                            viewById.setContent(bean.member_validity);
+                            viewById.setContent(bean.avmember_validity);
 
                             mTvName.setText("昵称:" + bean.user_nicename);
 

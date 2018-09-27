@@ -69,6 +69,7 @@ public class ConfigBean {
     public String zhubo_url2;
 
     public int channl_type;
+    public String qq;
 
 
     public String keyword;
@@ -89,5 +90,5 @@ public class ConfigBean {
     public String jika;
     public String nianka;
     public String zhongshenka;
-    public String free_time;
+    public long free_time;
 }

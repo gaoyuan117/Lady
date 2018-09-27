@@ -32,23 +32,12 @@
                     android:layout_marginLeft="5dp"
                     android:drawableLeft="@mipmap/gonggao"
                     android:drawablePadding="10dp"
-                    android:text="您是：体验会员，可免费观看"
-                    android:textColor="@color/text_gray1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5个"
-                    android:textColor="#db453c" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="完整视频!"
+                    android:text="该视频限时免费，您可以观看完整视频"
                     android:textColor="@color/text_gray1" />
 
                 <ImageView
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/close"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

@@ -136,6 +136,7 @@ public class SplashActivity extends BaseActivity {
                             AppConfig.nianka = bean.nianka;
                             AppConfig.zhongshenka = bean.zhongshenka;
                             AppConfig.free_time = bean.free_time;
+                            AppConfig.QQ = bean.qq;
                             SharePrefUtil.putString("video_url", bean.video_url);
                         }
                     }
@@ -153,7 +154,7 @@ public class SplashActivity extends BaseActivity {
                             bean.id = mobileBean.getData().getInfo().getUid();
                             AppContext.getInstance().saveUserInfo(bean);
                             splah();
-                            getQq();
+//                            getQq();
                             getConfig();
                         } else {
                             ToastUtils.showLong(mobileBean.getData().getMsg());
@@ -176,7 +177,7 @@ public class SplashActivity extends BaseActivity {
                             bean.id = mobileBean.getData().getInfo().getUid();
                             AppContext.getInstance().saveUserInfo(bean);
                             splah();
-                            getQq();
+//                            getQq();
                             getConfig();
                         } else {
                             ToastUtils.showLong(mobileBean.getData().getMsg());

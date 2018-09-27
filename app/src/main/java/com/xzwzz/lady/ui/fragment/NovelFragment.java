@@ -8,6 +8,8 @@ import android.view.View;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.xzwzz.lady.AppConfig;
+import com.xzwzz.lady.AppContext;
 import com.xzwzz.lady.R;
 import com.xzwzz.lady.api.http.BaseListObserver;
 import com.xzwzz.lady.api.http.RetrofitClient;
@@ -16,6 +18,7 @@ import com.xzwzz.lady.base.BaseFragment;
 import com.xzwzz.lady.bean.BookBean;
 import com.xzwzz.lady.module.book.BookAdapter;
 import com.xzwzz.lady.module.book.BookDetailActivity;
+import com.xzwzz.lady.utils.PayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +66,14 @@ public class NovelFragment extends BaseFragment implements BaseQuickAdapter.OnIt
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        BookBean item = (BookBean) adapter.getItem(position);
-        Bundle bundle = new Bundle();
-        bundle.putString("id", item.id);
-        bundle.putString("name", item.post_title);
-        ActivityUtils.startActivity(bundle, BookDetailActivity.class);
+        if (AppConfig.AVMEMBER){
+            BookBean item = (BookBean) adapter.getItem(position);
+            Bundle bundle = new Bundle();
+            bundle.putString("id", item.id);
+            bundle.putString("name", item.post_title);
+            ActivityUtils.startActivity(bundle, BookDetailActivity.class);
+        }else {
+            PayUtils.payDialog(getActivity(), R.mipmap.av_pay_bg, "开通会员", "", 2, AppContext.avChargeList);
+        }
     }
 }
